@@ -1,21 +1,30 @@
-﻿using System;
-using System.Linq;
-
-namespace PersonnummerVerifier
+class StartProgram
 {
-    class Program
+    static void Main()
     {
-        public static void Main(string[] args)
+        do
         {
-            // Begär användarinmatning
-            Console.WriteLine("Ange personnummer (format: YYMMDDXXXX):");
-            string input = Console.ReadLine();
+            Start();
+            Console.WriteLine("Do you want to check another personal identity number? (y/n)");
+        } while (Console.ReadLine()?.Trim().ToLower() == "y");
+    }
 
-            // Anropa metoden för att verifiera personnummer
-            bool isValid = PersonnummerVerifier.VerifieraPersonnummer(input);
+    static void Start()
+    {
+        Console.WriteLine("Enter a Swedish personal identity number (YYMMDD-XXXX or YYYYMMDD-XXXX):");
+        string personalNumber = (Console.ReadLine() ?? "").Trim(); // Remove whitespaces
 
-            // Visa resultatet
-            Console.WriteLine(isValid ? "Personnumret är giltigt." : "Personnumret är ogiltigt.");
+        if (SwedishPersonalNumberValidator.IsValid(personalNumber))
+        {
+            Console.WriteLine("The personal identity number is valid.");
+
+            // Get and display gender
+            string gender = SwedishPersonalNumberValidator.GetGender(personalNumber);
+            Console.WriteLine($"Gender: {gender}");
+        }
+        else
+        {
+            Console.WriteLine("The personal identity number is not valid.");
         }
     }
 }
