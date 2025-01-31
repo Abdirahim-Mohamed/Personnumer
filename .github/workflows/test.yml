@@ -1,0 +1,37 @@
+name: .NET Core CI - Unit Tests
+
+on:
+  push:
+    branches:
+      - main  # Trigger när det görs en push till main-branchen
+  pull_request:
+    branches:
+      - main  # Trigger när det skapas eller uppdateras en pull request mot main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest  # Kör på en Ubuntu-miljö, kan ändras till windows-latest eller macos-latest om du vill
+
+    steps:
+      # 1. Checka ut koden från repositoryn
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # 2. Sätt upp .NET SDK
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: '6.0'  # Ange vilken version av .NET du använder (kan vara 5.0, 6.0, 7.0)
+
+      # 3. Återställ NuGet-paket
+      - name: Restore dependencies
+        run: dotnet restore
+
+      # 4. Bygg projektet
+      - name: Build project
+        run: dotnet build --configuration Release
+
+      # 5. Kör enhetstester
+      - name: Run unit tests
+        run: dotnet test --configuration Release --no-build  # Kör tester utan att bygga om
+
