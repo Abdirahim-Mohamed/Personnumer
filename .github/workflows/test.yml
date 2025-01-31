@@ -14,9 +14,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2  # Bytte till v2 för att säkerställa stabilitet
 
-      # Steg 2: Rensa cachade Git-referenser för att tvinga en ny checkout
-      - name: Cleanup git references
-        run: git clean -fdx  # Detta rensar alla otrackade filer
+      # Steg 2: Verifiera Git status
+      - name: Git Status
+        run: |
+          git status
+          git remote -v  # Kolla att rätt fjärrrepository är konfigurerat
 
       # Steg 3: Setup .NET 8.0
       - name: Setup .NET 8.0
@@ -31,3 +33,4 @@ jobs:
       # Steg 5: Run tests
       - name: Run tests
         run: dotnet test
+
