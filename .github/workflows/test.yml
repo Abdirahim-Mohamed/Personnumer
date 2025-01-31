@@ -12,18 +12,22 @@ jobs:
     steps:
       # Steg 1: Checkout repository
       - name: Checkout repository
-        uses: actions/checkout@v3  # Uppdaterad version av checkout-action för bättre stabilitet
+        uses: actions/checkout@v2  # Bytte till v2 för att säkerställa stabilitet
 
-      # Steg 2: Setup .NET 8.0
+      # Steg 2: Rensa cachade Git-referenser för att tvinga en ny checkout
+      - name: Cleanup git references
+        run: git clean -fdx  # Detta rensar alla otrackade filer
+
+      # Steg 3: Setup .NET 8.0
       - name: Setup .NET 8.0
-        uses: actions/setup-dotnet@v3  # Använder senaste versionen av .NET
+        uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: '8.0'  # Uppdaterad till .NET 8.0
+          dotnet-version: '8.0'  # Använder .NET 8.0
 
-      # Steg 3: Restore dependencies
+      # Steg 4: Restore dependencies
       - name: Restore dependencies
         run: dotnet restore
 
-      # Steg 4: Run tests
+      # Steg 5: Run tests
       - name: Run tests
         run: dotnet test
