@@ -3,7 +3,7 @@ name: .NET Test Workflow
 on:
   push:
     branches:
-      - main  # Detta triggar workflow när det görs en push till main-grenen
+      - main  # Triggas när det görs en push till main-grenen
 
 jobs:
   test:
@@ -12,18 +12,18 @@ jobs:
     steps:
       # Steg 1: Checkout repository
       - name: Checkout repository
-        uses: actions/checkout@v2  # Se till att repositoryt klonas korrekt
+        uses: actions/checkout@v3  # Uppdaterad version av checkout-action för bättre stabilitet
 
-      # Steg 2: Setup .NET (med den senaste versionen)
-      - name: Setup .NET 7.0
-        uses: actions/setup-dotnet@v2
+      # Steg 2: Setup .NET 8.0
+      - name: Setup .NET 8.0
+        uses: actions/setup-dotnet@v3  # Använder senaste versionen av .NET
         with:
-          dotnet-version: '7.0'  # Använder .NET 7.0, som är under support
+          dotnet-version: '8.0'  # Uppdaterad till .NET 8.0
 
       # Steg 3: Restore dependencies
       - name: Restore dependencies
         run: dotnet restore
 
-      # Steg 4: Run unit tests
+      # Steg 4: Run tests
       - name: Run tests
         run: dotnet test
