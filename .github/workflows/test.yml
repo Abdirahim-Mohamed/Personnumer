@@ -1,37 +1,29 @@
-name: .NET Core CI - Unit Tests
+name: .NET Test Workflow
 
 on:
   push:
     branches:
-      - main  # Trigger när det görs en push till main-branchen
-  pull_request:
-    branches:
-      - main  # Trigger när det skapas eller uppdateras en pull request mot main
+      - main  # Detta triggar workflow när det görs en push till main-grenen
 
 jobs:
   test:
-    runs-on: ubuntu-latest  # Kör på en Ubuntu-miljö, kan ändras till windows-latest eller macos-latest om du vill
+    runs-on: ubuntu-latest  # Körs på en Ubuntu-latest-miljö
 
     steps:
-      # 1. Checka ut koden från repositoryn
-      - name: Checkout code
-        uses: actions/checkout@v2
+      # Steg 1: Checkout repository
+      - name: Checkout repository
+        uses: actions/checkout@v2  # Se till att repositoryt klonas korrekt
 
-      # 2. Sätt upp .NET SDK
-      - name: Set up .NET
+      # Steg 2: Setup .NET (med den senaste versionen)
+      - name: Setup .NET 7.0
         uses: actions/setup-dotnet@v2
         with:
-          dotnet-version: '6.0'  # Ange vilken version av .NET du använder (kan vara 5.0, 6.0, 7.0)
+          dotnet-version: '7.0'  # Använder .NET 7.0, som är under support
 
-      # 3. Återställ NuGet-paket
+      # Steg 3: Restore dependencies
       - name: Restore dependencies
         run: dotnet restore
 
-      # 4. Bygg projektet
-      - name: Build project
-        run: dotnet build --configuration Release
-
-      # 5. Kör enhetstester
-      - name: Run unit tests
-        run: dotnet test --configuration Release --no-build  # Kör tester utan att bygga om
-
+      # Steg 4: Run unit tests
+      - name: Run tests
+        run: dotnet test
