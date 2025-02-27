@@ -25,12 +25,12 @@ jobs:
 
       # 3. Återställ NuGet-paket
       - name: Restore dependencies
-        run: dotnet restore
+        run: dotnet restore ./PersonnummerValidatorSolution.sln
 
       # 4. Bygg projektet
       - name: Build project
-        run: dotnet build --configuration Release
+        run: dotnet build --configuration ./PersonnummerValidatorSolution.sln
 
       # 5. Kör enhetstester
       - name: Run unit tests
-        run: dotnet test --configuration Release --no-build  # Kör tester utan att bygga om
+        run: dotnet test --configuration Release --no-build ./PersonnummerValidatorSolution.sln
